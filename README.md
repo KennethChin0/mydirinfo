@@ -1,1 +1,1 @@
-# mydirinfo
+# rand
