@@ -8,15 +8,29 @@
 #include <dirent.h>
 #include <string.h>
 
-int main(){
-  DIR * dir = opendir(".");
+int main(int argc, char * argv[]){
+  // DIR * dir = opendir(".");
+  DIR * dir;
+  char directory[512];
+  if (argc = 1){
+    fgets(directory, sizeof(directory), stdin);
+    directory[strlen(directory) - 1] = '\0';
+  }
+  else{
+    strcpy(directory, argv[1]);
+  }
+  dir = opendir(directory);
+  if (dir == NULL){
+    printf("%s\n", strerror(errno));
+    return 0;
+  }
   struct dirent * nextFile = readdir(dir);
   int size = 0;
   while(nextFile != NULL){
     // printf("%s %d\n", nextFile->d_name, nextFile->d_type);
     struct stat info;
     stat(nextFile -> d_name, &info);
-    printf("Name :%s\n", nextFile->d_name);
+    printf("Name: %s\n", nextFile->d_name);
     if (nextFile->d_type == 4){
       printf("Type: directory\n");
       printf("Size: %ld", info.st_size );
